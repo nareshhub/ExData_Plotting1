@@ -1,9 +1,9 @@
-powerin <- read.table("household_power_consumption.txt",header=T,sep=";",stringsAsFactors = F,nrows=4)
-names <- names(powerin)
-datain <- read.table(pipe("findstr /B /R ^[1-2]/2/2007 household_power_consumption.txt"),header=T,sep=";",stringsAsFactors = F)
-colnames(datain) <- names
+powerin <- read.table("household_power_consumption.txt",header=T,sep=";",stringsAsFactors = F)
+datain <- filter(powerin,Date %in% c("1/2/2007","2/2/2007"))
+
 datain$dateTime <- paste(datain$Date,datain$Time,sep=" ")
 datain$dateTime <- strptime(datain$dateTime,"%d/%m/%Y %H:%M:%S")
+datain$Global_active_power <- as.numeric(datain$Global_active_power)
 
 png("plot2.png",height=480,width=480)
 par(mfrow=c(1,1))
