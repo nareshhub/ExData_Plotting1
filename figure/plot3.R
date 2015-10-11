@@ -1,0 +1,12 @@
+powerin <- read.table("household_power_consumption.txt",header=T,sep=";",stringsAsFactors = F,nrows=4)
+names <- names(powerin)
+datain <- read.table(pipe("findstr /B /R ^[1-2]/2/2007 household_power_consumption.txt"),header=T,sep=";",stringsAsFactors = F)
+colnames(datain) <- names
+datain$dateTime <- paste(datain$Date,datain$Time,sep=" ")
+datain$dateTime <- strptime(datain$dateTime,"%d/%m/%Y %H:%M:%S")
+
+par(mfrow=c(1,1))
+plot(datain$dateTime,datain$Sub_metering_1,xlab = "",ylab="Energy Sub Metering",type = "l",col="black")
+lines(datain$dateTime,datain$Sub_metering_2,type="l",col="red")
+lines(datain$dateTime,datain$Sub_metering_3,type="l",col="blue")
+legend("topright",legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),lty=1,col=c("black","red","green"),x.intersp=0.2, y.intersp=0.3,cex=0.7)
